@@ -1,7 +1,14 @@
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import React, { useState } from "react";
 import { defaultStyles } from "@/constants/Styles";
 import Colors from "@/constants/Colors";
+import { Link } from "expo-router";
 
 const signup = () => {
   const [countryCode, setCountryCode] = useState("+91");
@@ -32,6 +39,25 @@ const signup = () => {
           onChangeText={setPhoneNumber}
         />
       </View>
+
+      <Link href={"/login"} asChild>
+        <TouchableOpacity>
+          <Text style={[defaultStyles.textLink, { marginBottom: 20 }]}>
+            Already have an account ? Log in
+          </Text>
+        </TouchableOpacity>
+      </Link>
+
+      <TouchableOpacity
+        style={[
+          defaultStyles.pillButton,
+          phoneNumber !== "" ? styles.enabled : styles.disabled,
+          { marginBottom: 50 },
+        ]}
+        onPress={onSignup}
+      >
+        <Text>Sign Up</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -55,7 +81,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     fontSize: 20,
     marginRight: 10,
-    width: "auto",
+    minWidth: 250,
   },
   enabled: {
     backgroundColor: Colors.primary,
