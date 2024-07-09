@@ -3,8 +3,8 @@ import React from "react";
 
 const login = () => {
   return (
-    <View className="">
-      <Text className="">login</Text>
+    <View>
+      <Text>login</Text>
     </View>
   );
 };
