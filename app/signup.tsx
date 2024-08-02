@@ -10,7 +10,8 @@ import {
 import React, { useState } from "react";
 import { defaultStyles } from "@/constants/Styles";
 import Colors from "@/constants/Colors";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
+import { useSignUp } from "@clerk/clerk-expo";
 
 const signup = () => {
   const [countryCode, setCountryCode] = useState("+91");
@@ -18,7 +19,32 @@ const signup = () => {
 
   const keyboardVerticalOffset = Platform.OS === "ios" ? 80 : 0;
 
-  const onSignup = async () => {};
+  const router = useRouter();
+  const { signUp } = useSignUp();
+
+  const onSignup = async () => {
+    const fullPhoneNumber = `${countryCode}${phoneNumber}`;
+
+    router.push({
+      pathname: "/verify/[phone]",
+      params: { phone: fullPhoneNumber },
+    });
+
+    // try {
+    //   await signUp!.create({
+    //     phoneNumber: fullPhoneNumber,
+    //   });
+
+    //   signUp!.preparePhoneNumberVerification();
+
+    //   router.push({
+    //     pathname: "/verify/[phone]",
+    //     params: { phone: fullPhoneNumber },
+    //   });
+    // } catch (error) {
+    //   console.error("Error signing up:", error);
+    // }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -65,6 +91,7 @@ const signup = () => {
             phoneNumber !== "" ? styles.enabled : styles.disabled,
             { marginBottom: 20 },
           ]}
+          onPress={onSignup}
         >
           <Text style={defaultStyles.buttonText}>Sign up</Text>
         </TouchableOpacity>
